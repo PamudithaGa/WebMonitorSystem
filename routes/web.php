@@ -1,8 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SuperAdminController;
 
-Route::view('/', 'welcome');
+Route::view('/', 'users.dashboard');
+// ->middleware(['auth', 'verified'])
+// ->name('dashboard');
+
+
+
+
+// Route::view('/admin', 'admin.dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');;
+
+// Route::view('/superadmin', 'superadmin.dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');;
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -12,4 +28,18 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+
+Route::view('/monitor', 'common.monitor');
+
+
+
+Route::get('/admindashboard', [AdminController::class, 'dashboard'])
+    ->middleware('auth')
+    ->can('admin-access');
+
+Route::get('/superadmindashboard', [SuperAdminController::class, 'dashboard'])
+    ->middleware('auth')
+    ->can('superadmin-access');
+
+
+require __DIR__ . '/auth.php';
