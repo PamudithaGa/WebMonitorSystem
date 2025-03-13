@@ -42,4 +42,12 @@ Route::get('/superadmindashboard', [SuperAdminController::class, 'dashboard'])
     ->can('superadmin-access');
 
 
+    Gate::define('admin-access', function ($user) {
+        return $user->role === 'admin';
+    });
+
+Route::view('/team', 'superadmin.teamManage')
+    ->middleware(['auth', 'verified'])
+    ->name('team');;
+
 require __DIR__ . '/auth.php';

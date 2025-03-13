@@ -272,7 +272,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""
+                        <a href={{ route('team') }}
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-users mr-3"></i> Team Members
                         </a>
