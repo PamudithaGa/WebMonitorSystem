@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 px-6 pb-5 sm:grid-cols-3">
+        <div class="grid gap-4 px-6 pb-5 sm:grid-cols-3 md:grid-cols-4">
             <input type="search" placeholder="Find Site"
                 class="w-full rounded-lg border border-blue-600 bg-white p-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" />
 
@@ -38,30 +38,17 @@
                 <option value="">Sort by Added Date</option>
             </select>
 
-
             @auth
-                @if (Auth::user()->email === 'kanchana@gmail.com')
-                    <button
+                @if (Auth::user()->email === 'parindya@gmail.com')
+                    <button id="add-website-button"
                         class="w-full rounded-lg bg-blue-600 p-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-blue-700 hover:shadow-lg">
-                        + Add Project
+                        + Add Website
                     </button>
                 @endif
             @endauth
 
-            {{-- @auth
-                @if (Auth::user()->email === 'pavindya@gmail.com')
-                    <button
-                        class="w-full rounded-lg bg-blue-600 p-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-blue-700 hover:shadow-lg">
-                        + Add Members
-                    </button>
-                @endif
-            @endauth
- --}}
-
-
-
             @auth
-                @if (Auth::user()->email === 'pavindya@gmail.com')
+                @if (Auth::user()->email === 'parindya@gmail.com')
                     <button id="add-member-btn"
                         class="w-full rounded-lg bg-blue-600 p-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-blue-700 hover:shadow-lg">
                         + Add Members
@@ -74,60 +61,58 @@
             class="mx-auto mt-6 hidden w-full max-w-lg rounded-xl border border-gray-200 bg-white p-8 shadow-xl">
             <h1 class="mb-6 text-center text-3xl font-semibold text-gray-800">Add Member</h1>
 
-            <form action="" class="space-y-6">
+            <form action="/add-member" method="POST" class="space-y-6">
+                @csrf
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Name</label>
-                    <input type="text" placeholder="Type New Member Name"
+                    <input type="text" name="name" placeholder="Type New Member Name"
                         class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Email</label>
-                    <input type="email" placeholder="Type Email"
+                    <input type="email" name="email" placeholder="Type Email"
                         class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Password</label>
-                    <input type="password" placeholder="••••••••"
+                    <input type="password" name="password" placeholder="••••••••"
                         class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Role</label>
-                    <select
+                    <select name="role"
                         class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Admin</option>
-                        <option>User</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
                     </select>
                 </div>
 
                 <div class="flex justify-between space-x-4">
-                    <button type="button"
+                    <button type="button" id="cancel-button"
                         class="w-full rounded-lg bg-gray-300 py-3 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
                     <button type="submit"
                         class="w-full rounded-lg bg-blue-600 py-3 text-white transition duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Add</button>
                 </div>
             </form>
-            {{-- </div> --}}
 
-            <script>
-                // JavaScript to toggle the visibility of the form
-                document.getElementById('add-member-btn').addEventListener('click', function() {
-                    const card = document.getElementById('add-member-card');
-                    card.classList.toggle('hidden'); // Toggle the 'hidden' class to show/hide the form
-                });
-            </script>
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
-
-
 
         <div class="w-full cursor-pointer gap-4 rounded-lg border border-blue-600 bg-white p-3 px-6 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
             onclick="toggleMembers()">
             Members
         </div>
-
 
         <div id="members-list" class="grid hidden w-3/4 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
             @foreach (App\Models\User::where('role', 'user')->get() as $user)
@@ -140,13 +125,34 @@
             @endforeach
         </div>
 
-
-        <script>
-            function toggleMembers() {
-                const membersList = document.getElementById('members-list');
-                membersList.classList.toggle('hidden');
-            }
-        </script>
+        <div class="mt-7 w-full cursor-pointer gap-4 rounded-lg border border-blue-600 bg-white p-3 px-6 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            onclick="toggleSites()">
+            Websites
+        </div>
+        
+        <div id="sites-list" class="grid w-full gap-6 px-6 py-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            @foreach (App\Models\Website::all() as $website)
+                <div class="relative flex h-auto flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-6 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                    <p class="text-xl font-semibold text-gray-800">{{ $website->name }}</p>                    
+                    <a href="{{ $website->url }}" class="mt-1 text-sm text-gray-600">{{ $website->url }}</a>
+                    <div class="my-3 h-[1px] w-full bg-gray-200"></div>
+        
+                    <div class="flex w-full justify-between">
+                        <button class="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600">
+                            Edit
+                        </button>
+                        <form action="{{ route('website.destroy', $website->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        
 
         <style>
             .team-card:hover {
@@ -156,10 +162,12 @@
         </style>
 
 
+        {{-- <div class="pt-[10px]">
+            <div
+                class="w-full gap-4 rounded-lg border border-blue-600 bg-white p-3 px-6 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                Teams
+            </div>
 
-
-
-        <div>
             <div class="grid grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach (App\Models\Website::all() as $website)
                     <div onclick="showTeamDetails('{{ Str::slug($website->name, '_') }}')" class="team-card">
@@ -181,9 +189,152 @@
                     </button>
                 </div>
             </div>
+        </div> --}}
+
+
+
+        {{-- <label for="members">Add Members</label> --}}
+        {{-- <select id="members" name="members" multiple
+                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @foreach (App\Models\User::all() as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select> --}}
+
+
+        {{-- <div id="addmember" class="mb-6">
+                        <div id="memberFields" class="space-y-4">
+                            <div class="member-row flex items-center space-x-4">
+                                <select name=" member_id[]" class="member-select w-full rounded border px-3 py-2">
+                                    <option value="">Select Member</option>
+                                    @foreach (App\Models\User::all() as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                <button type="button"
+                                    class="add-member inline-flex items-center rounded-md bg-green-500 px-3 py-1.5 text-white hover:bg-green-600">+</button>
+                            </div>
+                        </div>
+                    </div
+        </div> --}}
+
+        <div id="add-website-form" class="hidden">
+            <h1>Add Website</h1>
+            <form action="/add-website" method="POST" class="space-y-6">
+                @csrf
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Website Name</label>
+                    <input type="text" name="name" placeholder="Type Website Name"
+                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="client">Client</label>
+                    <input type="text" name="client" placeholder="Type Client Name"
+                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="client">URL</label>
+                    <input type="text" name="url" placeholder="Type URL here"
+                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="flex justify-between space-x-4">
+                    <button type="button" id="cancel-button"
+                        class="w-full rounded-lg bg-gray-300 py-3 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+                    <button type="submit"
+                        class="w-full rounded-lg bg-blue-600 py-3 text-white transition duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Add</button>
+                </div>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </form>
         </div>
 
-        <div id="" class="">
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const memberFields = document.querySelector("#memberFields");
+
+                function updateDisabledOptions() {
+                    let selectedValues = Array.from(document.querySelectorAll(".member-select"))
+                        .map(select => select.value)
+                        .filter(val => val !== "");
+
+                    document.querySelectorAll(".member-select option").forEach(option => {
+                        if (selectedValues.includes(option.value)) {
+                            option.disabled = true;
+                        } else {
+                            option.disabled = false;
+                        }
+                    });
+                }
+
+                document.querySelector(".add-member").addEventListener("click", function() {
+                    let firstField = document.querySelector(".member-row");
+                    let newField = firstField.cloneNode(true);
+
+                    newField.querySelector("select").value = "";
+
+                    newField.querySelector(".add-member").remove();
+                    let removeButton = document.createElement("button");
+                    removeButton.type = "button";
+                    removeButton.className =
+                        "remove-member inline-flex items-center rounded-md bg-red-500 px-3 py-1.5 text-white hover:bg-red-600";
+                    removeButton.textContent = "-";
+                    newField.appendChild(removeButton);
+
+                    memberFields.appendChild(newField);
+
+                    updateDisabledOptions();
+                });
+
+                document.addEventListener("click", function(e) {
+                    if (e.target.classList.contains("remove-member")) {
+                        e.target.parentElement.remove();
+                        updateDisabledOptions();
+                    }
+                });
+
+                document.addEventListener("change", function(e) {
+                    if (e.target.classList.contains("member-select")) {
+                        updateDisabledOptions();
+                    }
+                });
+            });
+
+            function toggleMembers() {
+                const membersList = document.getElementById('members-list');
+                membersList.classList.toggle('hidden');
+            }
+
+            function toggleSites() {
+                const sitesList = document.getElementById('sites-list');
+                sitesList.classList.toggle('hidden');
+            }
+
+            document.getElementById('add-member-btn').addEventListener('click', function() {
+                const card = document.getElementById('add-member-card');
+                card.classList.toggle('hidden');
+            });
+
+            document.getElementById('add-website-button').addEventListener('click', function() {
+                var form = document.getElementById('add-website-form');
+                form.classList.toggle('hidden');
+            });
+
+            document.getElementById('cancel-button').addEventListener('click', function() {
+                var form = document.getElementById('add-website-form');
+                form.classList.add('hidden');
+            });
+        </script>
+
+
+
+
+        {{-- <div id="" class="">
             <table class="">
                 <thead>
                     <tr>
@@ -225,11 +376,6 @@
             </table>
         </div>
 
-
-
-
-
-
         <div id="" class="">
             <table class="">
                 <thead>
@@ -247,9 +393,9 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
 
-        <div id="" class="">
+        {{-- <div id="" class="">
             <table class="">
                 <thead>
                     <tr>
@@ -270,9 +416,10 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
 
-        <script>
+
+        {{-- <script>
             const teams = {
                 @php
                     use Illuminate\Support\Str;
@@ -318,9 +465,9 @@
             function closeModal() {
                 document.getElementById("team-modal").classList.add("hidden");
             }
-        </script>
+        </script> --}}
 
-
+        {{-- 
         <style>
             .team-card {
                 display: flex;
@@ -341,5 +488,5 @@
                 transform: scale(1.05);
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             }
-        </style>
+        </style> --}}
     @endsection

@@ -1,26 +1,25 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class website extends Model
+class WebsiteLog extends Model
 {
     use HasFactory;
-    protected $table = 'website';
+
     protected $fillable = [
         'website_id',
-        'url',
-        'name',
-        'client',
         'status',
-        'last_checked',
+        'error_details',
+        'logged_at'
     ];
 
-    public function user()
+    public $timestamps = false;
+
+    public function website()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Website::class);
     }
 }
-
