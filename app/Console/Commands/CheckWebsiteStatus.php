@@ -59,33 +59,6 @@ class CheckWebsiteStatus extends Command
     public function handle()
     {
 
-        // $client = new Client(['timeout' => 10]); // Timeout after 10 seconds
-        // $websites = Website::all();
-
-        // foreach ($websites as $website) {
-        //     $status = 'Active';
-        //     $errorDetails = null;
-
-        //     try {
-        //         $response = $client->get($website->url);
-        //         if ($response->getStatusCode() !== 200) {
-        //             $status = 'Down';
-        //             $errorDetails = "HTTP Error: " . $response->getStatusCode();
-        //         }
-        //     } catch (ConnectException $e) {
-        //         $status = 'Down';
-        //         $errorDetails = "Connection Timeout (Site may be down)";
-        //     } catch (RequestException $e) {
-        //         $status = 'Down';
-        //         $errorDetails = "Request Failed: " . $e->getMessage();
-        //     } catch (ServerException $e) {
-        //         $status = 'Down';
-        //         $errorDetails = "Server Error (500 or similar)";
-        //     } catch (\Exception $e) {
-        //         $status = 'Down';
-        //         $errorDetails = "Unknown Error: " . $e->getMessage();
-        //     }
-
         $websites = Website::all();
         foreach ($websites as $website) {
             try {
