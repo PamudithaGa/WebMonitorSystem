@@ -1,35 +1,5 @@
 <?php
 
-// namespace App\Console\Commands;
-
-// use Illuminate\Console\Command;
-
-// class CheckSslExpiry extends Command
-// {
-//     /**
-//      * The name and signature of the console command.
-//      *
-//      * @var string
-//      */
-//     protected $signature = 'app:check-ssl-expiry';
-
-//     /**
-//      * The console command description.
-//      *
-//      * @var string
-//      */
-//     protected $description = 'Command description';
-
-//     /**
-//      * Execute the console command.
-//      */
-//     public function handle()
-//     {
-//         //
-//     }
-// }
-
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -47,7 +17,7 @@ class CheckSslExpiry extends Command
         $websites = Website::all();
 
         foreach ($websites as $website) {
-            $url = parse_url($website->url, PHP_URL_HOST); // Extract domain
+            $url = parse_url($website->url, PHP_URL_HOST);
             $sslInfo = @stream_context_create(["ssl" => ["capture_peer_cert" => true]]);
             $socket = @stream_socket_client("ssl://$url:443", $errno, $errstr, 10, STREAM_CLIENT_CONNECT, $sslInfo);
 
@@ -56,7 +26,8 @@ class CheckSslExpiry extends Command
                 $expiryDate = Carbon::parse(openssl_x509_parse($cert)['validTo_time_t']);
 
                 SslCertificate::updateOrCreate(
-                    ['website_id' => $website->id],
+                    ['website_id' => $website->id, 'website_name' => $website->name],
+                    // ['website_name' => $website->name],
                     ['expiry_date' => $expiryDate]
                 );
 

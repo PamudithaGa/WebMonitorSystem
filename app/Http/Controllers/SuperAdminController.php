@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\website;
 use App\Models\WebsiteLog;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class SuperAdminController extends Controller
@@ -56,9 +57,25 @@ class SuperAdminController extends Controller
     }
 
 
-    // public function index()
-    // {
-    //     $sales = \App\Models\WebsiteLog::all();
-    //     return view('superadmin.', compact('sales'));
-    // }
+
+    public function dailySummary()
+    {
+        $today = Carbon::today()->toDateString();
+
+        $logs = WebsiteLog::whereDate('logged_at', $today)
+            ->where('status', 'down')
+            ->with('website')
+            ->get();
+
+        $summary = $logs->groupBy('website_id')->map(function ($logs) {
+            return [
+                'name' => $logs->first()->website->name,
+                'count' => $logs->count(),
+                'reason' => $logs->pluck('error_details')->unique()->implode(', ')
+            ];
+        });
+
+        // return view('website_logs.daily_summary', compact('summary'));
+        return view('admin.dailyReports', compact('summary'));
+    }
 }

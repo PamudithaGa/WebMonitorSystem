@@ -33,7 +33,7 @@
                 <tbody>
                     @foreach (App\Models\SslCertificate::all() as $ssl)
                         <tr class="border-b bg-white transition hover:bg-gray-50">
-                            <td class="px-6 py-4 text-lg text-gray-800">{{ $ssl->name }}</td>
+                            <td class="px-6 py-4 text-lg text-gray-800">{{ $ssl->website_name }}</td>
                             <td class="px-6 py-4 text-lg text-gray-800">{{ $ssl->expiry_date->toDateString() }}</td>
                             <td class="px-6 py-4 text-lg text-gray-800">
                                 <span class="font-semibold text-red-600">
@@ -58,7 +58,7 @@
                             </td>
 
                             @auth
-                                @if (Auth::user()->email === 'achintha@gmail.com' && $ssl->alert_sent >= 3)
+                                @if (Auth::user()->email === 'pamudithagangana45@gmail.com' && $ssl->alert_sent >= 3)
                                     <td class="px-6 py-4">
                                         <button class="rounded-md bg-red-600 px-4 py-2 text-white transition hover:bg-red-800">
                                             Active SSL

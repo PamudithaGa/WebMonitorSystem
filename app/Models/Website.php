@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\SeoResult;
 
-class website extends Model
+class Website extends Model
 {
     use HasFactory;
     protected $table = 'website';
@@ -22,5 +24,9 @@ class website extends Model
     {
         return $this->belongsTo(User::class);
     }
-}
 
+    public function seoResults()
+    {
+        return $this->hasMany(SeoResult::class);
+    }
+}

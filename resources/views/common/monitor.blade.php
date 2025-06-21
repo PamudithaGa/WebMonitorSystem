@@ -70,33 +70,44 @@
     </div>
 
     <div class="mt-6 w-full">
-        <div class="w-[1200px] rounded-xl bg-gray-600 p-6 text-white shadow-md">
+        <div class="w-[1200px] rounded-xl bg-gray-800 p-6 text-white shadow-md">
             <p class="text-lg font-semibold">Monitoring Status</p>
+
+
+            <table class="w-full border-collapse border border-gray-800">
+                <tbody>
+                    @foreach (App\Models\Website::all() as $website)
+                        <tr class="border border-gray-800">
+                            <td class="border border-gray-800 p-2">{{ $website->name }}</td>
+                            <td class="border border-gray-800 p-2">
+                                <a href="{{ $website->url }}" target="_blank" class="text-blue-500 hover:underline">
+                                    <button class="w-14 rounded bg-red-700 p-1 text-white">Visit</button>
+                                </a>
+                            </td>
+                            <td class="border border-gray-800 p-2">
+                                <span
+                                    class="font-bold {{ $website->status === 'Down' ? 'text-red-400' : 'text-green-400' }}">
+                                    {{ $website->status ?? 'No Status Available' }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
             @if (App\Models\Website::all()->isEmpty())
                 <p class="text-lg font-bold">No Data Yet</p>
             @else
-                <ul>
-                    @foreach (App\Models\Website::all() as $website)
-                        <li class="mt-2 flex justify-between border-b pb-2">
-                            <span>{{ $website->name }}</span>
-                            {{-- <span>  {{ $website->url }}</span> --}}
-                            <a href="{{ $website->url }}" target="_blank" class="text-blue-500 hover:underline">
-                                {{ $website->url }}
-                            </a>
-                            
-    
-                            <span
-                                class="font-bold 
-                            {{ $website->status === 'Down' ? 'text-red-400' : 'text-green-400' }}">
-                                {{ $website->status ? $website->status : 'No Status Available' }}
-                            </span>
-                        </li>
-                    @endforeach
-                </ul>
+              
             @endif
         </div>
     </div>
+
+
+
+
+
+
     <script>
         document.getElementById('add-website-button').addEventListener('click', function() {
             var form = document.getElementById('add-website-form');

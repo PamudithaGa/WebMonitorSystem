@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Schedule;
 use App\Console\Commands\CheckWebsiteStatus;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\User;
+use App\Models\Website;
 use App\Notifications\DailyReportNotification;
 use App\Models\SslCertificate;
 use App\Notifications\SslExpiryNotification;
@@ -15,7 +16,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('inspire')->hourly();
+Schedule::command('monitor:inspire')->hourly();
 
 Schedule::command('monitor:check-websites')->everyMinute();
 
@@ -26,7 +27,7 @@ Schedule::call(function () {
     foreach ($emails as $email) {
         \Illuminate\Support\Facades\Notification::route('mail', $email)->notify(new DailyReportNotification());
     }
-})->dailyAt('16:30'); 
+})->dailyAt('16:30');
 
 
 Schedule::command('monitor:check-ssl')->daily();
@@ -47,4 +48,7 @@ Schedule::call(function () {
             $ssl->update(['alert_sent' => true]);
         }
     }
-})->dailyAt('08:00'); 
+})->dailyAt('08:00');
+
+
+Schedule::command('seo:check')->dailyAt('02:00');

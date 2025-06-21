@@ -10,14 +10,12 @@ class SslCertificate extends Model
     use HasFactory;
     protected $table = 'ssl_certificates';
 
-    protected $fillable = ['certificate_id', 'website_id', 'expiry_date', 'alert_sent'];
+    protected $fillable = ['certificate_id', 'website_id', 'website_name' ,'expiry_date', 'alert_sent'];
 
     public function website()
     {
         return $this->belongsTo(Website::class);
     }
-
-    
 
     protected $casts = [
         'expiry_date' => 'datetime',

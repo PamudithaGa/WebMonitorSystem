@@ -24,37 +24,6 @@ class CheckWebsiteStatus extends Command
     protected $signature = 'monitor:check-websites';
     protected $description = 'Check the status of all monitored websites and update the database';
 
-    //     public function handle()
-    //     {
-    //         $websites = Website::all();
-    //         foreach ($websites as $website) {
-    //             try {
-    //                 $response = Http::timeout(10)->get($website->url);
-    //                 $status = $response->successful() ? 'Active' : 'Down';
-
-    //                 $website->update([
-    //                     'status' => $status,
-    //                     'last_checked' => now(),
-    //                 ]);
-
-    //                 Log::info("Checked {$website->url} - Status: $status");
-    //             } catch (\Exception $e) {
-    //                 // If an error occurs (timeout, DNS issue), mark the website as down
-    //                 $website->update([
-    //                     'status' => 'Down',
-    //                     'last_checked' => now(),
-    //                 ]);
-
-    //                 Log::error("Failed to check {$website->url} - Marked as Down.");
-    //             }
-    //         }
-
-    //         $this->info('Website statuses updated successfully.');
-    //     }
-    // }
-
-
-
 
     public function handle()
     {
@@ -66,6 +35,7 @@ class CheckWebsiteStatus extends Command
                 $status = $response->successful() ? 'Active' : 'Down';
                 $errorDetails = null;
             } catch (\Exception $e) {
+
                 $status = 'Down';
                 //new added 
                 $errorDetails = $e->getMessage();
@@ -92,13 +62,6 @@ class CheckWebsiteStatus extends Command
                         \Illuminate\Support\Facades\Notification::route('mail', $email)->notify(new WebsiteDownNotification($website));
                     }
                 }
-
-                // if ($status === 'Down') {
-                //     $admins = User::where('role', 'admin')->get();
-                //     foreach ($admins as $admin) {
-                //         $admin->notify(new WebsiteDownSmsNotification($website));
-                //     }
-                // }
             }
         }
 

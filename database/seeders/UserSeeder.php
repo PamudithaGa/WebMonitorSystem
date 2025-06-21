@@ -14,12 +14,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $superadmin  = User::create([
-            'name' => 'Parindya',
-            'email' => 'parindya@gmail.com',
-            'password' => Hash::make('superadmin'),
-            'role' => 'superadmin' 
-        ]);
+        // $superadmin  = User::create([
+        //     'name' => 'Parindya',
+        //     'email' => 'parindya@gmail.com',
+        //     'password' => Hash::make('superadmin'),
+        //     'role' => 'superadmin' 
+        // ]);
 
         // $admin  = User::create([
         //     'name' => 'Admin User',
@@ -48,5 +48,12 @@ class UserSeeder extends Seeder
         //     'password' => Hash::make('admin'),
         //     'role' => 'admin'
         // ]);
+
+        $member  = User::create([
+            'name' => 'Sheshan',
+            'email' => 'sheshan@gmail.com',
+            'password' => Hash::make('member'),
+            'role' => 'admin'
+        ]);
     }
 }

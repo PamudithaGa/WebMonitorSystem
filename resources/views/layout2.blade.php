@@ -14,6 +14,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
 
     <script>
         tailwind.config = {
@@ -58,7 +66,8 @@
 
     <div class="flex">
         <aside id="sidebar"
-            class="fixed mt-[75px] hidden h-screen w-64 bg-gray-900 shadow-lg transition-all duration-300 ease-in-out md:block">
+            class="fixed mt-[75px] flex hidden h-screen w-64 flex-col justify-between bg-gray-900 shadow-lg transition-all duration-300 ease-in-out md:block">
+
             <nav class="mt-6">
                 <ul class="space-y-2">
                     <li>
@@ -74,13 +83,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""
+                        <a href="{{ route('report.index') }}"
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-file-invoice mr-3"></i> Reports
                         </a>
                     </li>
                     <li>
-                        <a href=""
+                        <a href="{{route('visualChecks')}}"
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-bug mr-3"></i> AI-Visual Checks
                         </a>
@@ -92,6 +101,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('seo.dashboard') }}"
+                            class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-chart-line mr-3"></i> SEO Checking
+                        </a>
+                    </li>
+                    <li>
                         <a href={{ route('team') }}
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-users mr-3"></i> Controller
@@ -99,13 +114,26 @@
                     </li>
                 </ul>
             </nav>
-            <h1 class="mb-full text-gray-300"><i class="far fa-copyright"></i>Powerd By All In One Holdings</h1>
+
+
+            <!-- Footer fixed at bottom -->
+            <div class="p-4">
+                <h1 class="text-center text-xs text-gray-300">
+                    <i class="far fa-copyright"></i> Powered By All In One Holdings
+                </h1>
+            </div>
         </aside>
 
-        <main class="ml-[20%] p-6">
+
+        <main class="ml-[20%] w-full p-6">
+
             @yield('content')
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @yield('scripts')
+
 </body>
 
 </html>

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('website_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('website_id')->constrained('websites')->onDelete('cascade');
-            $table->string('status'); // Change from integer to string
-            $table->text('error_details')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('website_logs', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('website_id')->constrained('websites')->onDelete('cascade');
+        //     $table->string('status'); // Change from integer to string
+        //     $table->text('error_details')->nullable();
+        //     $table->timestamps();
+        // });
         
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('website_logs');
+        // Schema::dropIfExists('website_logs');
     }
 };
