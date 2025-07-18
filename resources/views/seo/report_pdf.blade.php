@@ -108,7 +108,7 @@
             page-break-before: always;
         }
 
-        .div{
+        .div {
             margin-top: 30px;
         }
     </style>
