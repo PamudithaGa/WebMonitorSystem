@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('website', function (Blueprint $table) {
-             Schema::table('website', function (Blueprint $table) {
-        $table->string('target_keyword')->nullable();
-    });
-        });
+        // Schema::table('website', function (Blueprint $table) {
+        //     Schema::table('website', function (Blueprint $table) {
+        //         $table->string('target_keyword')->nullable();
+        //     });
+        // });
     }
 
     /**

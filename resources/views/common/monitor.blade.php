@@ -1,67 +1,63 @@
-@extends('layout2')
+@extends('layout')
 
 @section('content')
-    <div class="mt-[60px] grid w-full grid-cols-1 gap-6 p-6 lg:grid-cols-4">
+<div class="mt-[60px] space-y-10 p-6">
+
+    {{-- 🧠 Header Section --}}
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-            <input type="number" placeholder="Enter page count"
-                class="w-full rounded-md border border-gray-300 p-2 text-black focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
-                value={{ App\Models\Website::count() }} readonly>
+            <h1 class="text-3xl font-bold text-gray-800">Monitoring Status</h1>
+            <p class="text-sm text-gray-600">
+                Generate and view daily, weekly, and monthly system-performance reports.
+            </p>
         </div>
-
-        <div class="flex items-center gap-2">
-            <button class="rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300">Filter</button>
-            <select name="filter_by"
-                class="rounded-md border border-gray-300 p-2 text-black focus:border-blue-400 focus:ring-2 focus:ring-blue-400">
-                <option value="status">Status</option>
-                <option value="type">Type</option>
-                <option value="name">Name</option>
-                <option value="last_check">Last Check</option>
-                <option value="last_update">Last Update</option>
-            </select>
-        </div>
-
-        <div class="flex items-center">
+        <div class="flex justify-end">
             <button id="add-website-button"
-                class="flex items-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-                <i class="fa fa-plus mr-2"></i> New Monitor
+                class="flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+                <i class="fa fa-plus"></i> New Monitor
             </button>
         </div>
     </div>
 
-    <div id="add-website-form" class="hidden">
-        <h1>Add Website</h1>
+    {{-- ➕ Add Website Form --}}
+    <div id="add-website-form" class="hidden rounded-lg bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-semibold text-gray-700">Add Website</h2>
         <form action="/add-website" method="POST" class="space-y-6">
             @csrf
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
-                    <label class="">Website Name</label>
+                    <label class="block text-sm font-medium text-gray-700">Website Name</label>
                     <input type="text" name="name" placeholder="Type Website Name"
-                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full rounded border border-gray-300 bg-gray-100 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label for="client">Client</label>
+                    <label class="block text-sm font-medium text-gray-700">Client</label>
                     <input type="text" name="client" placeholder="Type Client Name"
-                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full rounded border border-gray-300 bg-gray-100 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label for="client">URL</label>
+                    <label class="block text-sm font-medium text-gray-700">URL</label>
                     <input type="text" name="url" placeholder="Type URL here"
-                        class="w-full rounded-lg border border-gray-300 bg-gray-100 p-4 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full rounded border border-gray-300 bg-gray-100 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
 
-            <div class="flex justify-between space-x-4">
+            <div class="flex justify-end gap-4">
                 <button type="button" id="cancel-button"
-                    class="w-full rounded-lg bg-gray-300 py-3 text-gray-700 transition duration-200 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+                    class="rounded bg-gray-300 px-5 py-2 text-sm text-gray-700 hover:bg-gray-400">
+                    Cancel
+                </button>
                 <button type="submit"
-                    class="w-full rounded-lg bg-blue-600 py-3 text-white transition duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Add</button>
+                    class="rounded bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700">
+                    Add
+                </button>
             </div>
 
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="mt-4 rounded bg-red-100 p-3 text-sm text-red-700">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li>• {{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -69,69 +65,69 @@
         </form>
     </div>
 
-    <div class="mt-6 w-full">
-        <div class="w-[1200px] rounded-xl bg-gray-800 p-6 text-white shadow-md">
-            <p class="text-lg font-semibold">Monitoring Status</p>
-
-
-            <table class="w-full border-collapse border border-gray-800">
-                <tbody>
-                    @foreach (App\Models\Website::all() as $website)
-                        <tr class="border border-gray-800">
-                            <td class="border border-gray-800 p-2">{{ $website->name }}</td>
-                            <td class="border border-gray-800 p-2">
-                                <a href="{{ $website->url }}" target="_blank" class="text-blue-500 hover:underline">
-                                    <button class="w-14 rounded bg-red-700 p-1 text-white">Visit</button>
-                                </a>
-                            </td>
-                            <td class="border border-gray-800 p-2">
-                                <span
-                                    class="font-bold {{ $website->status === 'Down' ? 'text-red-400' : 'text-green-400' }}">
-                                    {{ $website->status ?? 'No Status Available' }}
-                                </span>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            @if (App\Models\Website::all()->isEmpty())
-                <p class="text-lg font-bold">No Data Yet</p>
-            @else
-              
-            @endif
-        </div>
+    {{-- 🔍 Search Input --}}
+    <div class="rounded-lg bg-white p-4 shadow-md">
+        <input type="text" id="search-input" placeholder="🔍 Search websites by name or URL..."
+            class="w-full rounded-md border border-gray-300 bg-gray-100 p-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
     </div>
 
+    {{-- 🖥️ Monitoring Table --}}
+    <div class="overflow-x-auto rounded-xl bg-gray-800 p-6 text-white shadow-md">
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="border-b border-gray-700 text-left">
+                    <th class="p-2 font-semibold">Website</th>
+                    <th class="p-2 font-semibold">URL</th>
+                    <th class="p-2 font-semibold">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse (App\Models\Website::all() as $website)
+                    <tr class="searchable-row border-b border-gray-700" 
+                        data-name="{{ strtolower($website->name) }}"
+                        data-url="{{ strtolower($website->url) }}">
+                        <td class="p-2">{{ $website->name }}</td>
+                        <td class="p-2">
+                            <a href="{{ $website->url }}" target="_blank"
+                                class="text-blue-400 hover:underline">
+                                Visit
+                            </a>
+                        </td>
+                        <td class="p-2">
+                            <span
+                                class="font-bold {{ $website->status === 'Down' ? 'text-red-400' : 'text-green-400' }}">
+                                {{ $website->status ?? 'No Status Available' }}
+                            </span>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" class="p-4 text-center text-gray-300">No websites monitored yet.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
+</div>
 
+{{-- 🧠 JS Section --}}
+<script>
+    document.getElementById('add-website-button').addEventListener('click', () => {
+        document.getElementById('add-website-form').classList.toggle('hidden');
+    });
 
+    document.getElementById('cancel-button').addEventListener('click', () => {
+        document.getElementById('add-website-form').classList.add('hidden');
+    });
 
-
-    <script>
-        document.getElementById('add-website-button').addEventListener('click', function() {
-            var form = document.getElementById('add-website-form');
-            form.classList.toggle('hidden');
+    document.getElementById('search-input').addEventListener('input', function () {
+        const keyword = this.value.toLowerCase();
+        document.querySelectorAll('.searchable-row').forEach(row => {
+            const name = row.getAttribute('data-name');
+            const url = row.getAttribute('data-url');
+            row.style.display = name.includes(keyword) || url.includes(keyword) ? '' : 'none';
         });
-
-        function fetchMonitoringData() {
-            fetch('/api/get-websites')
-                .then(response => response.json())
-                .then(data => {
-                    let statusContainer = document.getElementById('monitoring-status');
-                    statusContainer.innerHTML = "";
-
-                    data.forEach(website => {
-                        let statusClass = website.status === 'Active' ? 'text-green-400' : 'text-red-400';
-                        statusContainer.innerHTML += `<li class="mt-2 flex justify-between border-b pb-2">
-                        <span>${website.name} (${website.url})</span>
-                        <span class="font-bold ${statusClass}">${website.status}</span>
-                    </li>`;
-                    });
-                });
-        }
-
-        setInterval(fetchMonitoringData, 60000);
-    </script>
-
+    });
+</script>
 @endsection

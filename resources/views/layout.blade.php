@@ -55,9 +55,6 @@
                 <i class="fas fa-bars text-2xl text-white"></i>
             </button>
 
-            <input type="search" placeholder="Search Website"
-                class="h-12 w-1/2 rounded-full border border-gray-300 px-4 text-black placeholder-gray-500 shadow-md outline-none transition duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-400" />
-
             <div class="hidden space-x-4 md:flex">
                 <a href=""><i class="fas fa-user-tie"></i></a>
             </div>
@@ -91,7 +88,7 @@
                     <li>
                         <a href="{{route('visualChecks')}}"
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
-                            <i class="fas fa-bug mr-3"></i> AI-Visual Checks
+                            <i class="fas fa-bug mr-3"></i> AI- Based Error Checks
                         </a>
                     </li>
                     <li>

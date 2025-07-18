@@ -10,17 +10,28 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class SeoController extends Controller
 {
+
+
   // public function index()
   // {
-  //     $websites = Website::with('seoResults')->get();
-  //     return view('seo.dashboard', compact('websites'));
+  //   $websites = Website::with('seoResults')->get();
+  //   return view('seo.dashboard', compact('websites'));
   // }
 
-  public function index()
+  public function index(Request $request)
   {
-    $websites = Website::with('seoResults')->get();
-    return view('seo.dashboard', compact('websites'));
+    $query = Website::with('seoResults');
+
+    if ($search = $request->input('search')) {
+      $query->where('name', 'like', "%{$search}%")
+        ->orWhere('url', 'like', "%{$search}%");
+    }
+
+    $websites = $query->get();
+
+    return view('seo.dashboard', compact('websites', 'search'));
   }
+
 
   public function check(Request $request, SeoCheckerService $seoChecker)
   {

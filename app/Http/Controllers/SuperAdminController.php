@@ -75,7 +75,6 @@ class SuperAdminController extends Controller
             ];
         });
 
-        // return view('website_logs.daily_summary', compact('summary'));
         return view('admin.dailyReports', compact('summary'));
     }
 }

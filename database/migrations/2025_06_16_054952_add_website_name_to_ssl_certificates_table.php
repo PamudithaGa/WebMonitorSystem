@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('ssl_certificates', function (Blueprint $table) {
-            $table->string('website_name')->after('website_id')->nullable();
-        });
+        // Schema::table('ssl_certificates', function (Blueprint $table) {
+        //     $table->string('website_name')->after('website_id')->nullable();
+        // });
     }
 
     public function down(): void
     {
-        Schema::table('ssl_certificates', function (Blueprint $table) {
-            $table->dropColumn('website_name');
-        });
+        // Schema::table('ssl_certificates', function (Blueprint $table) {
+        //     $table->dropColumn('website_name');
+        // });
     }
 };

@@ -26,7 +26,7 @@ Route::view('/', 'common.monitor');
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');;
 
-Route::view('dashboard', 'superadmin.dashboard')
+Route::view('dashboarda', 'superadmin.dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -41,12 +41,12 @@ Route::view('/visual', 'visualChecks.dashboard')->name('visualChecks');
 Route::view('/reportsview', 'reports.reportDashboard')->name('reportsadmin');
 Route::view('/monitordashboard', 'superadmin.dashboard')->name('adminDash');
 Route::view('/reports', 'admin.dailyReports')->name('reports');
-Route::view('/dash', 'seo.dashboard')->name('seo.dashboard');
+Route::view('/dashboard', 'seo.dashboard')->name('seo.dashboard');
 
 
 
 Route::prefix('seo')->group(function () {
-    Route::get('/dash', [SeoController::class, 'index'])->name('seo.dashboard');
+    Route::get('/dashboard', [SeoController::class, 'index'])->name('seo.dashboard');
     Route::post('/check', [SeoController::class, 'check'])->name('seo.check');
     Route::get('/report/{id}/pdf', [SeoController::class, 'generatePDF'])->name('seo.report.pdf');
 

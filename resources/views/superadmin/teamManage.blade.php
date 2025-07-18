@@ -1,4 +1,4 @@
-{{-- @extends('layout2')
+{{-- @extends('layout')
 
 @section('content')
     <div class="w-full bg-white p-6 md:mt-[100px] md:p-6">
@@ -298,7 +298,7 @@
 
 
 
-@extends('layout2')
+@extends('layout')
 
 @section('content')
     <div class="w-full bg-white p-6 md:mt-[100px] md:p-6">
@@ -306,7 +306,7 @@
         {{-- HEADER --}}
         <div
             class="mb-4 mt-6 flex flex-col items-center justify-between rounded-xl bg-white/90 p-6 shadow-lg backdrop-blur-md lg:flex-row">
-            <h1 class="text-3xl font-extrabold text-gray-800 lg:text-4xl">Team Management Dashboard</h1>
+            <h1 class="text-3xl font-bold text-gray-800 lg:text-4xl">Team Management Dashboard</h1>
 
             <div class="mt-4 flex flex-col items-center lg:mt-0 lg:flex-row lg:space-x-6">
                 <div class="flex items-center space-x-4">
@@ -317,7 +317,7 @@
                         <p class="text-lg font-semibold text-gray-700">
                             Welcome, <span class="text-indigo-600">{{ Auth::user()->name }}</span>!
                         </p>
-                        <p class="text-sm text-gray-500">ID: <span class="font-medium">{{ Auth::user()->id }}</span></p>
+                        {{-- <p class="text-sm text-gray-500">ID: <span class="font-medium">{{ Auth::user()->id }}</span></p> --}}
                         <p class="text-sm text-gray-500">Email: <span class="font-medium">{{ Auth::user()->email }}</span>
                         </p>
                     </div>
@@ -331,7 +331,7 @@
 
         {{-- SEARCH / FILTER / ACTION BUTTONS --}}
         <div class="grid gap-4 px-6 pb-5 sm:grid-cols-3 md:grid-cols-4">
-            <input type="search" placeholder="Find Site"
+            {{-- <input type="search" placeholder="Find Site"
                 class="w-full rounded-lg border border-blue-600 bg-white p-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" />
 
             <select name="Sort By"
@@ -339,7 +339,7 @@
                 <option value="">Sort by ID</option>
                 <option value="">Sort by Name</option>
                 <option value="">Sort by Added Date</option>
-            </select>
+            </select> --}}
 
             @auth
                 @if (Auth::user()->email === 'parindya@gmail.com')
@@ -450,7 +450,7 @@
             Members
         </div>
 
-        <div id="members-list" class="grid hidden w-3/4 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
+        {{-- <div id="members-list" class="grid hidden w-3/4 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
             @foreach (App\Models\User::where('role', 'user')->get() as $user)
                 <div
                     class="flex flex-col items-center justify-center rounded-lg border border-gray-900 bg-white p-4 shadow-md hover:shadow-xl">
@@ -458,7 +458,32 @@
                     <p class="text-sm text-gray-500">{{ $user->email }}</p>
                 </div>
             @endforeach
+        </div> --}}
+
+        <div id="members-list" class="grid hidden w-3/4 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
+    @foreach (App\Models\User::where('role', 'user')->get() as $user)
+        <div class="flex flex-col items-center justify-center rounded-lg border border-gray-900 bg-white p-4 shadow-md hover:shadow-xl">
+            <p class="text-lg font-semibold text-gray-700">{{ $user->name }}</p>
+            <p class="text-sm text-gray-500">{{ $user->email }}</p>
+
+            <div class="mt-4 flex gap-2">
+                <a href="#" class="rounded bg-blue-500 px-3 py-1 text-sm font-medium text-white transition hover:bg-blue-600">
+                    Edit Info
+                </a>
+                <form 
+                {{-- action="{{ route('users.destroy', $user->id) }}"  --}}
+                method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    {{-- @csrf
+                    @method('DELETE') --}}
+                    <button type="submit" class="rounded bg-red-500 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-600">
+                        Delete
+                    </button>
+                </form>
+            </div>
         </div>
+    @endforeach
+</div>
+
 
         {{-- WEBSITE TOGGLE --}}
         <div class="mt-7 w-full cursor-pointer gap-4 rounded-lg border border-blue-600 bg-white p-3 px-6 text-gray-700 shadow-sm"
