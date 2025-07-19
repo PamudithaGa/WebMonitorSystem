@@ -85,12 +85,12 @@
                             <i class="fas fa-file-invoice mr-3"></i> Reports
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{route('visualChecks')}}"
                             class="flex items-center rounded-md px-6 py-3 text-gray-300 transition hover:bg-gray-700 hover:text-white">
                             <i class="fas fa-bug mr-3"></i> AI- Based Error Checks
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('ssl') }}"
                             class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">

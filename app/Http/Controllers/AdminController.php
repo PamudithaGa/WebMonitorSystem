@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Website;
 use App\Models\User;
-
+use App\Notifications\SSLActivatedNotification;
+use Illuminate\Support\Facades\Notification;
 
 class AdminController extends Controller
 {
@@ -63,5 +64,30 @@ class AdminController extends Controller
         $website->save();
 
         return redirect()->back()->with('success', 'Website updated successfully!');
+    }
+
+    // public function activateSSL($id)
+    // {
+    //     $website = Website::findOrFail($id);
+
+    //     // Send the notification to the hardcoded email
+    //     Notification::route('mail', 'learning9241@gmail.com')
+    //         ->notify(new SSLActivatedNotification());
+
+    //     // You can also store SSL status if needed
+    //     // $website->ssl_active = true;
+    //     // $website->save();
+
+    //     return redirect()->back()->with('success', 'SSL activation email sent!');
+    // }
+    
+    public function activateSSL($id)
+    {
+        $website = Website::findOrFail($id);
+
+        Notification::route('mail', 'learning9241@gmail.com')
+            ->notify(new SSLActivatedNotification($website));
+
+        return redirect()->back()->with('success', 'SSL activation email sent!');
     }
 }

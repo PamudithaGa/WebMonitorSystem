@@ -460,7 +460,7 @@
             @endforeach
         </div> --}}
 
-        <div id="members-list" class="grid hidden w-3/4 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div id="members-list" class="grid hidden w-11/12 grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
     @foreach (App\Models\User::where('role', 'user')->get() as $user)
         <div class="flex flex-col items-center justify-center rounded-lg border border-gray-900 bg-white p-4 shadow-md hover:shadow-xl">
             <p class="text-lg font-semibold text-gray-700">{{ $user->name }}</p>

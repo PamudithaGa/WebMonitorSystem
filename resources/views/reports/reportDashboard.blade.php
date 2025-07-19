@@ -17,19 +17,19 @@
             @php $type = request('type', 'daily'); @endphp
 
             <a href="?type=daily"
-               class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
+                class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
                       {{ $type === 'daily' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700 hover:bg-blue-200' }}">
                 Daily Report
             </a>
 
             <a href="?type=weekly"
-               class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
+                class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
                       {{ $type === 'weekly' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-700 hover:bg-green-200' }}">
                 Weekly Report
             </a>
 
             <a href="?type=monthly"
-               class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
+                class="px-4 py-2 text-sm font-medium rounded shadow-sm transition
                       {{ $type === 'monthly' ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-700 hover:bg-purple-200' }}">
                 Monthly Report
             </a>
@@ -45,13 +45,13 @@
 
             <div class="mb-4 flex justify-end gap-2">
                 <a href="{{ route('report.index', array_merge($baseParams, ['type' => $type, $offsetKey => $offset - 1])) }}"
-                   class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
+                    class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
                     ← Previous {{ ucfirst($type) }}
                 </a>
 
                 @if ($offset < 0)
                     <a href="{{ route('report.index', array_merge($baseParams, ['type' => $type, $offsetKey => $offset + 1])) }}"
-                       class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
+                        class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
                         Next {{ ucfirst($type) }} →
                     </a>
                 @endif
@@ -67,14 +67,16 @@
                     </h2>
                     @if ($type === 'weekly')
                         <p class="mt-1 text-sm text-gray-600">
-                            Week of {{ \Carbon\Carbon::now()->startOfWeek()->addWeeks($weekOffset)->toFormattedDateString() }}
+                            Week of
+                            {{ \Carbon\Carbon::now()->startOfWeek()->addWeeks($weekOffset)->toFormattedDateString() }}
                         </p>
                     @elseif ($type === 'monthly')
                         <p class="mt-1 text-sm text-gray-600">
                             {{ \Carbon\Carbon::now()->startOfMonth()->addMonths($monthOffset)->format('F Y') }}
                         </p>
                     @elseif ($type === 'daily' && $dateFilter)
-                        <p class="mt-1 text-sm text-gray-600">Date: {{ \Carbon\Carbon::parse($dateFilter)->toFormattedDateString() }}</p>
+                        <p class="mt-1 text-sm text-gray-600">Date:
+                            {{ \Carbon\Carbon::parse($dateFilter)->toFormattedDateString() }}</p>
                     @endif
                 </div>
 
@@ -86,9 +88,9 @@
                             <input type="hidden" name="type" value="{{ $type }}">
                             <label for="dateFilter" class="text-sm text-gray-600">Date:</label>
                             <input type="date" id="dateFilter" name="dateFilter" value="{{ request('dateFilter') }}"
-                                   class="rounded border px-2 py-1 text-sm">
+                                class="rounded border px-2 py-1 text-sm">
                             <button type="submit"
-                                    class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
+                                class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">
                                 Filter
                             </button>
                         </form>
@@ -102,7 +104,7 @@
                         <input type="hidden" name="monthOffset" value="{{ request('monthOffset') }}">
                         @csrf
                         <button type="submit"
-                                class="rounded bg-indigo-600 px-4 py-2 text-white shadow hover:bg-indigo-700">
+                            class="rounded bg-indigo-600 px-4 py-2 text-white shadow hover:bg-indigo-700">
                             Print&nbsp;Report
                         </button>
                     </form>

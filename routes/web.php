@@ -45,6 +45,9 @@ Route::view('/dashboard', 'seo.dashboard')->name('seo.dashboard');
 
 
 
+Route::post('/website/{id}/ssl-activate', [AdminController::class, 'activateSSL'])
+    ->name('website.ssl.activate');
+
 Route::prefix('seo')->group(function () {
     Route::get('/dashboard', [SeoController::class, 'index'])->name('seo.dashboard');
     Route::post('/check', [SeoController::class, 'check'])->name('seo.check');
