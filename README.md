@@ -1,6 +1,6 @@
 # 🌐 NexusMonitor
 
-> A Smart Website Monitoring & Reporting System – built to automate SSL alerts, SEO audits, uptime tracking, and scheduled reporting.
+> A Smart Website Monitoring & Reporting System:- built to automate SSL alerts, SEO audits, uptime tracking, and scheduled reporting.
 
 ---
 
